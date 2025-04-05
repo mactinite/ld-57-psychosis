@@ -1,0 +1,40 @@
+﻿title: Start
+position: -478,-258
+---
+Woah! Where am I?
+Guess I should look around with the mouse and move with wasd to find someone to talk to.
+===
+
+
+
+
+title: Buddy
+position: -219,-258
+---
+Hello where am I?
+Buddy: Hi I'm Buddy!
+    -> Hi Buddy, nice to meet you.
+    -> Can you tell me where I am?
+Buddy: Nice to meet you!
+Buddy: I'm Buddy!
+    -> I'd really like to know where I am..
+    -> Please, can you tell me where I am?
+Buddy: Hi I'm Buddy!
+*sigh* this is going nowhere...
+Buddy: No wait don't go.
+Oh so you can actually talk?
+Buddy: I'm Buddy of course I can talk!
+
+===
+
+title:Grumpy
+---
+Hello can you tell me where I am?
+Not Buddy: Listen, I'm not your buddy guy.
+    -> Are we going to have a problem?
+    -> Woah, I just want some help dude, chill.
+Not Buddy: All right you asked for it, I'm real tired of your shit.
+    -> Bring it on!
+    -> Hey calm down!
+*Not Buddy Attacks*
+===
