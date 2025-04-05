@@ -27,7 +27,7 @@ Buddy: I'm Buddy of course I can talk!
 
 ===
 
-title:Grumpy
+title:NotBuddy
 ---
 Hello can you tell me where I am?
 Not Buddy: Listen, I'm not your buddy guy.
@@ -37,4 +37,16 @@ Not Buddy: All right you asked for it, I'm real tired of your shit.
     -> Bring it on!
     -> Hey calm down!
 *Not Buddy Attacks*
+<<StartBattle ENC_NotBuddy>>
+===
+
+
+title:NotBuddy_FailedGame
+---
+Not Buddy: Come on you gotta hit them all!
+===
+
+title:NotBuddy_PassedGame
+---
+Not Buddy: Oooohhhh yeaaaaaahhhhhh!!!!
 ===

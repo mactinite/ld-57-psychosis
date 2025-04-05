@@ -1,4 +1,5 @@
 using System;
+using Battle_System;
 using Framework.Singleton;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -43,27 +44,13 @@ public class DialogueManager : SingletonBehaviour<DialogueManager>
 
     private void OnDialogueStart()
     {
-        // disable player input
-        var inputs = GameManager.GetInputs();
-        if (inputs != null)
-        {
-            inputs.allowMovement = false;
-            inputs.SetCursorState(false);
-        }
-
-        InteractionManager.DeactivateInteractions();
+        GameManager.FreezePlayer();
     }
 
     private void OnDialogueComplete()
     {
-        // re-enable player input
-        var inputs = GameManager.GetInputs();
-        if (inputs != null)
-        {
-            inputs.allowMovement = true;
-            inputs.SetCursorState(true);
-        }
-
+        if (BattleSystem.instance.isRunning) return;
+        GameManager.UnfreezePlayer();
         InteractionManager.ActivateInteractions();
     }
 }

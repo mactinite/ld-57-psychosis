@@ -70,6 +70,18 @@ public class GameManager : SingletonBehaviour<GameManager>
         {
             inputs.allowMovement = false;
             inputs.SetCursorState(false);
+            InteractionManager.DeactivateInteractions();
+        }
+    }
+
+    public static void UnfreezePlayer()
+    {
+        var inputs = GameManager.GetInputs();
+        if (inputs != null)
+        {
+            inputs.allowMovement = true;
+            inputs.SetCursorState(true);
+            InteractionManager.ActivateInteractions();
         }
     }
 

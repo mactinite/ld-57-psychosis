@@ -67,6 +67,7 @@ public class InteractionManager : SingletonBehaviour<InteractionManager>
     public static void ActivateInteractions()
     {
         Instance.active = true;
+
     }
 
 
