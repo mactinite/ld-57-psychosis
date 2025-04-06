@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1504560340529219034}
   - component: {fileID: 666635723824812832}
   - component: {fileID: 5958258206167992390}
+  - component: {fileID: 5123565978317846244}
   m_Layer: 7
   m_Name: Target
   m_TagString: Untagged
@@ -107,7 +108,19 @@ MonoBehaviour:
   clickColor: {r: 0.9154092, g: 1, b: 0, a: 1}
   OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5123565978317846244}
+        m_TargetAssemblyTypeName: Battle_System.PrefabSpawner, Assembly-CSharp
+        m_MethodName: InstantiatePrefab
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!58 &5958258206167992390
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -144,3 +157,16 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.25
+--- !u!114 &5123565978317846244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993061774571736379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db60dd6054b84277bb4885c8f3212df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 9015094018588147310, guid: 6d986df536fca0f4180fdec046049623, type: 3}

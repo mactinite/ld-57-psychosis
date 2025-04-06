@@ -16,3 +16,6 @@ MonoBehaviour:
   miniGame: {fileID: 11400000, guid: cf0735e16a7daab42b455875e2cf7b4f, type: 2}
   failedDialogueNode: NotBuddy_FailedGame
   successDialogueNode: NotBuddy_PassedGame
+  enemyMaxHealth: 4
+  victoryDialogueNode: NotBuddy_Victory
+  lossDialogueNode: NotBuddy_Defeat

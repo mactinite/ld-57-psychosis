@@ -14,20 +14,28 @@ namespace Battle_System
         [SerializeField] private Camera battleCamera;
         [SerializeField] private CinemachineCamera battleCinemachineCamera;
         [SerializeField] private CinemachineCamera minigameCinemachineCamera;
-    
+
         [SerializeField] private List<BattleEncounter> battleEncounters = new List<BattleEncounter>();
         [SerializeField] private Transform miniGameParent;
 
+        [SerializeField] private PipCounterUI enemyHealthCounter;
+        [SerializeField] private PipCounterUI playerHealthCounter;
+
+        private int enemyHealth = 4;
+        private int playerHealth = 4; // Todo: load from gameManager and persist
+
         private BattleEncounter currentEncounter;
         private DialogueManager _dialogueManager;
-    
+
+
         public bool isRunning;
+
         private void Start()
         {
             _dialogueManager = DialogueManager.instance;
             _dialogueManager.dialogueRunner.AddCommandHandler<string>("StartBattle", StartBattleCommand);
         }
-    
+
         private static void StartBattleCommand(string encounterName)
         {
             var encounter = Instance.GetBattleEncounter(encounterName);
@@ -59,10 +67,16 @@ namespace Battle_System
         public static void StartBattle(BattleEncounter encounter)
         {
             Instance.currentEncounter = encounter;
-            
+            Instance.enemyHealth = encounter.enemyMaxHealth;
+            Instance.enemyHealthCounter.SetHealth(Instance.enemyHealth, encounter.enemyMaxHealth);
+
+            Instance.playerHealth = GameManager.Instance.playerHealth;
+            Instance.playerHealthCounter.SetHealth(GameManager.instance.playerHealth,
+                GameManager.instance.playerMaxHealth);
+
             GameManager.FreezePlayer();
             InteractionManager.DeactivateInteractions();
-        
+
             Instance.battleCinemachineCamera.gameObject.SetActive(true);
             Instance.minigameCinemachineCamera.gameObject.SetActive(false);
             Instance.battleCamera.gameObject.SetActive(true);
@@ -75,20 +89,21 @@ namespace Battle_System
 
         public void OnBattleEnd()
         {
+            DialogueManager.Instance.dialogueRunner.onDialogueComplete.RemoveListener(OnBattleEnd);
             Instance.currentEncounter = null;
-            
+
             GameManager.UnfreezePlayer();
             InteractionManager.ActivateInteractions();
-        
+
             Instance.battleCinemachineCamera.gameObject.SetActive(false);
             Instance.minigameCinemachineCamera.gameObject.SetActive(false);
             Instance.battleCamera.gameObject.SetActive(false);
-        
+
             Instance.isRunning = false;
             Instance.battleCanvas.gameObject.SetActive(false);
             Instance.battleStage.SetActive(false);
         }
-    
+
         public void OnFight()
         {
             // Run A Combat Game
@@ -104,22 +119,53 @@ namespace Battle_System
         {
             if (status == MiniGameStatus.Failed)
             {
-                DialogueManager.Instance.dialogueRunner.StartDialogue(currentEncounter.failedDialogueNode);
+                GameManager.Instance.playerHealth -= 1;
+                Instance.playerHealth = GameManager.Instance.playerHealth;
+                Instance.playerHealthCounter.SetHealth(Instance.playerHealth, GameManager.instance.playerMaxHealth);
             }
-            else
+            else if (status == MiniGameStatus.Completed)
             {
-                DialogueManager.Instance.dialogueRunner.StartDialogue(currentEncounter.successDialogueNode);
+                Instance.enemyHealth -= 1;
+                Instance.enemyHealthCounter.SetHealth(Instance.enemyHealth, currentEncounter.enemyMaxHealth);
             }
-            
+
+            if (Instance.enemyHealth <= 0)
+            {
+                OnEnemyDefeated();
+                return;
+            }
+
+            if (Instance.playerHealth <= 0)
+            {
+                OnPlayerDefeated();
+                return;
+            }
+
+            DialogueManager.Instance.dialogueRunner.StartDialogue(status == MiniGameStatus.Completed
+                ? currentEncounter.successDialogueNode
+                : currentEncounter.failedDialogueNode);
             DialogueManager.Instance.dialogueRunner.onDialogueComplete.AddListener(PostGameDialogueComplete);
         }
-        
+
+        private void OnPlayerDefeated()
+        {
+            DialogueManager.Instance.dialogueRunner.StartDialogue(currentEncounter.lossDialogueNode);
+            DialogueManager.Instance.dialogueRunner.onDialogueComplete.AddListener(OnBattleEnd);
+        }
+
+        public void OnEnemyDefeated()
+        {
+            DialogueManager.Instance.dialogueRunner.StartDialogue(currentEncounter.victoryDialogueNode);
+            DialogueManager.Instance.dialogueRunner.onDialogueComplete.AddListener(OnBattleEnd);
+        }
+
         private void PostGameDialogueComplete()
         {
             DialogueManager.Instance.dialogueRunner.onDialogueComplete.RemoveListener(PostGameDialogueComplete);
             Instance.battleCanvas.gameObject.SetActive(true);
             Instance.minigameCinemachineCamera.gameObject.SetActive(false);
         }
+
 
         public void OpenItems()
         {
@@ -130,6 +176,5 @@ namespace Battle_System
         {
             // use a specific item with name
         }
-    
     }
 }

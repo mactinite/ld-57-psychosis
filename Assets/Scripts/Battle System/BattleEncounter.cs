@@ -11,5 +11,8 @@ namespace DefaultNamespace.Battle_System
         public MiniGameData miniGame;
         public string failedDialogueNode;
         public string successDialogueNode;
+        public int enemyMaxHealth = 4;
+        public string victoryDialogueNode;
+        public string lossDialogueNode;
     }
 }

@@ -48,4 +48,4 @@ MonoBehaviour:
   targetCount: 5
   targetSpawnInterval: 1
   targetLifetime: 0.5
-  maxSpawnDistance: 1
+  maxSpawnDistance: 0.8

@@ -11,6 +11,8 @@ public class GameManager : SingletonBehaviour<GameManager>
     public StarterAssetsInputs starterAssetsInputs;
     public CinemachineCamera lookAtCamera;
     public CinemachineCamera followCamera;
+    public int playerHealth = 4;
+    public int playerMaxHealth = 4;
 
     public static void SetPlayerController(FirstPersonController controller)
     {
