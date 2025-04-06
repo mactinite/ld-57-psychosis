@@ -71,7 +71,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         if (inputs != null)
         {
             inputs.allowMovement = false;
-            inputs.SetCursorState(false);
+            CursorManager.SetCursor(CursorManager.CursorType.Point);
             InteractionManager.DeactivateInteractions();
         }
     }
@@ -82,7 +82,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         if (inputs != null)
         {
             inputs.allowMovement = true;
-            inputs.SetCursorState(true);
+            CursorManager.SetCursor(CursorManager.CursorType.Default);
             InteractionManager.ActivateInteractions();
         }
     }

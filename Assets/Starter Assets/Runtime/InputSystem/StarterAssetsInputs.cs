@@ -87,18 +87,6 @@ namespace StarterAssets
 			sprint = newSprintState;
 		}
 		
-		private void OnApplicationFocus(bool hasFocus)
-		{
-			if(!allowMovement)
-				return;
-			SetCursorState(cursorLocked);
-		}
-
-		public void SetCursorState(bool newState)
-		{
-			Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
-		}
-		
 	}
 	
 }

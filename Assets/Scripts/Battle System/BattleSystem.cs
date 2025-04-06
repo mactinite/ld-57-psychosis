@@ -1,8 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace.Battle_System;
 using Framework.Singleton;
+using Inventory_System;
+using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Battle_System
 {
@@ -20,6 +24,8 @@ namespace Battle_System
 
         [SerializeField] private PipCounterUI enemyHealthCounter;
         [SerializeField] private PipCounterUI playerHealthCounter;
+
+        [SerializeField] private GameObject inventoryUI;
 
         private int enemyHealth = 4;
         private int playerHealth = 4; // Todo: load from gameManager and persist
@@ -39,7 +45,6 @@ namespace Battle_System
         private static void StartBattleCommand(string encounterName)
         {
             var encounter = Instance.GetBattleEncounter(encounterName);
-
             if (encounter != null)
             {
                 StartBattle(encounter);
@@ -49,6 +54,7 @@ namespace Battle_System
                 Debug.LogError($"Encounter {encounterName} not found.");
             }
         }
+
 
         private BattleEncounter GetBattleEncounter(string name)
         {
@@ -66,6 +72,8 @@ namespace Battle_System
 
         public static void StartBattle(BattleEncounter encounter)
         {
+            InventoryManager.ItemClicked += Instance.UseItem;
+
             Instance.currentEncounter = encounter;
             Instance.enemyHealth = encounter.enemyMaxHealth;
             Instance.enemyHealthCounter.SetHealth(Instance.enemyHealth, encounter.enemyMaxHealth);
@@ -90,7 +98,10 @@ namespace Battle_System
         public void OnBattleEnd()
         {
             DialogueManager.Instance.dialogueRunner.onDialogueComplete.RemoveListener(OnBattleEnd);
+            InventoryManager.ItemClicked -= UseItem;
             Instance.currentEncounter = null;
+            Instance.battleCanvas.gameObject.SetActive(false);
+            Instance.battleStage.SetActive(false);
 
             GameManager.UnfreezePlayer();
             InteractionManager.ActivateInteractions();
@@ -100,8 +111,7 @@ namespace Battle_System
             Instance.battleCamera.gameObject.SetActive(false);
 
             Instance.isRunning = false;
-            Instance.battleCanvas.gameObject.SetActive(false);
-            Instance.battleStage.SetActive(false);
+            
         }
 
         public void OnFight()
@@ -144,7 +154,7 @@ namespace Battle_System
             DialogueManager.Instance.dialogueRunner.StartDialogue(status == MiniGameStatus.Completed
                 ? currentEncounter.successDialogueNode
                 : currentEncounter.failedDialogueNode);
-            DialogueManager.Instance.dialogueRunner.onDialogueComplete.AddListener(PostGameDialogueComplete);
+            DialogueManager.Instance.dialogueRunner.onDialogueComplete.AddListener(PostMiniGameDialogueComplete);
         }
 
         private void OnPlayerDefeated()
@@ -159,9 +169,9 @@ namespace Battle_System
             DialogueManager.Instance.dialogueRunner.onDialogueComplete.AddListener(OnBattleEnd);
         }
 
-        private void PostGameDialogueComplete()
+        private void PostMiniGameDialogueComplete()
         {
-            DialogueManager.Instance.dialogueRunner.onDialogueComplete.RemoveListener(PostGameDialogueComplete);
+            DialogueManager.Instance.dialogueRunner.onDialogueComplete.RemoveListener(PostMiniGameDialogueComplete);
             Instance.battleCanvas.gameObject.SetActive(true);
             Instance.minigameCinemachineCamera.gameObject.SetActive(false);
         }
@@ -169,12 +179,39 @@ namespace Battle_System
 
         public void OpenItems()
         {
-            // Open items menu
+            InventoryManager.Instance.ToggleInventory();
         }
 
-        public void UseItem(string name)
+        public void UseItem(string usedItemName)
         {
-            // use a specific item with name
+            // Try to use the item,
+            // if the encounter has a reaction for the item, play it. 
+            // If the item is used, remove it from the inventory
+            Instance.battleCanvas.gameObject.SetActive(false);
+            var item = InventoryManager.Instance.GetItemByName(usedItemName);
+            if (item != null)
+            {
+                ItemReaction? itemReaction =
+                    currentEncounter.GetItemReactionByItemName(usedItemName);
+
+                if (itemReaction?.itemName == usedItemName)
+                {
+                    DialogueManager.Instance.dialogueRunner.StartDialogue(itemReaction?.reactionDialogueNode);
+                    DialogueManager.Instance.dialogueRunner.onDialogueComplete.AddListener(AfterItemUsed);
+                    return;
+                }
+            }
+
+            DialogueManager.Instance.dialogueRunner.StartDialogue(currentEncounter.unkownItemReactionDialogueNode);
+            DialogueManager.Instance.dialogueRunner.onDialogueComplete.AddListener(AfterItemUsed);
+        }
+
+        public void AfterItemUsed()
+        {
+            // Remove the item from the inventory
+            InventoryManager.HideInventory();
+            DialogueManager.Instance.dialogueRunner.onDialogueComplete.RemoveListener(AfterItemUsed);
+            Instance.battleCanvas.gameObject.SetActive(true);
         }
     }
 }

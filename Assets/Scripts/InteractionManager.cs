@@ -12,7 +12,7 @@ public class InteractionManager : SingletonBehaviour<InteractionManager>
     public PlayerInput playerInput;
 
     private bool active = true;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,14 +23,14 @@ public class InteractionManager : SingletonBehaviour<InteractionManager>
             Debug.LogError("PlayerInput component not found.");
             return;
         }
-        
+
         playerInput.actions["Interact"].performed += ctx => Interact();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!active) return;
+        if (!active) return;
         // sphere cast and if hit, check if the object has an Interactable component
         RaycastHit hit;
         if (Physics.SphereCast(cameraTransform.position, .1f, cameraTransform.forward, out hit, 2f))
@@ -48,14 +48,32 @@ public class InteractionManager : SingletonBehaviour<InteractionManager>
             // show interaction prompt
             interactionPrompt.gameObject.SetActive(true);
             interactionPrompt.text = "F - " + currentInteractable.Verb();
+
+            CursorManager.CursorType cursorType = CursorManager.CursorType.Default;
+
+            switch (currentInteractable.Verb())
+            {
+                case "Grab":
+                    cursorType = CursorManager.CursorType.Grab;
+                    break;
+                case "Talk":
+                    cursorType = CursorManager.CursorType.Talk;
+                    break;
+                default:
+                    cursorType = CursorManager.CursorType.Default;
+                    break;
+            }
+
+            CursorManager.SetCursor(cursorType);
         }
         else
         {
             interactionPrompt.gameObject.SetActive(false);
             interactionPrompt.text = "";
+            CursorManager.SetCursor(CursorManager.CursorType.Default);
         }
     }
-    
+
     public static void DeactivateInteractions()
     {
         // deactivate the interaction prompt
@@ -67,7 +85,6 @@ public class InteractionManager : SingletonBehaviour<InteractionManager>
     public static void ActivateInteractions()
     {
         Instance.active = true;
-
     }
 
 

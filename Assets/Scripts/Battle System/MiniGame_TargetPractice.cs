@@ -22,6 +22,7 @@ namespace Battle_System
         {
             int targetsHit = 0;
             int lastTargetsHit = 0;
+            CursorManager.SetCursor(CursorManager.CursorType.Targeting);
             yield return new WaitForSeconds(2f);
             
             for (int i = 0; i < targetCount; i++)
@@ -44,7 +45,8 @@ namespace Battle_System
 
                 yield return new WaitForSeconds(Random.Range(0.1f, targetSpawnInterval));
             }
-            
+            CursorManager.SetCursor(CursorManager.CursorType.Point);
+
             onComplete?.Invoke(targetsHit >= targetCount ? MiniGameStatus.Completed : MiniGameStatus.Failed);
             Destroy(gameObject);
         }

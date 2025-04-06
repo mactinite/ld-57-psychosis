@@ -28,6 +28,7 @@ Buddy: I'm Buddy of course I can talk!
 ===
 
 title:NotBuddy
+position: 98,13
 ---
 Hello can you tell me where I am?
 Not Buddy: Listen, I'm not your buddy guy.
@@ -42,22 +43,36 @@ Not Buddy: All right you asked for it, I'm real tired of your shit.
 
 
 title:NotBuddy_FailedGame
+position: -198,39
 ---
 Not Buddy: Come on you gotta hit them all!
 ===
 
 title:NotBuddy_PassedGame
+position: 92,311
 ---
 Not Buddy: Oooohhhh yeaaaaaahhhhhh!!!!
 ===
 
 title:NotBuddy_Victory
+position: 120,-130
 ---
 Not Buddy: There you go, now you're ready for a real adventure.
 Not Buddy: Get out of my face.
 ===
 
 title:NotBuddy_Defeat
+position: 139,134
 ---
 Not Buddy: Nah you're not ready punk, step back.
+===
+
+title:NotBuddy_Confused
+---
+Not Buddy: Woah buddy what do you think you're doing with that?
+===
+
+title:NotBuddy_GreySquare
+---
+Not Buddy: Wow my grey square... My mother gave that to me
 ===

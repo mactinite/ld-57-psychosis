@@ -19,3 +19,7 @@ MonoBehaviour:
   enemyMaxHealth: 4
   victoryDialogueNode: NotBuddy_Victory
   lossDialogueNode: NotBuddy_Defeat
+  itemReactions:
+  - itemName: GreySquare
+    reactionDialogueNode: NotBuddy_GreySquare
+  unkownItemReactionDialogueNode: NotBuddy_Confused
