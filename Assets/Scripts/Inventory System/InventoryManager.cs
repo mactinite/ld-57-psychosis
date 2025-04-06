@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Yarn.Unity;
 
 namespace Inventory_System
 {
@@ -121,6 +122,21 @@ namespace Inventory_System
             return _inventory;
         }
 
+        [YarnFunction("hasItem")]
+        public static bool HasItem(string name)
+        {
+            var item = Instance.GetItemByName(name);
+            
+            if (item != null)
+            {
+                return Instance._inventory.Contains(item);
+            }
+            else
+            {
+                Debug.LogError($"Item {name} not found in all items.");
+                return false;
+            }
+        }
 
         public ItemAsset GetItemByName(string s)
         {

@@ -35,10 +35,11 @@ Not Buddy: Listen, I'm not your buddy guy.
     -> Are we going to have a problem?
     -> Woah, I just want some help dude, chill.
 Not Buddy: All right you asked for it, I'm real tired of your shit.
-    -> Bring it on!
+    -> Bring it on! <<if hasItem("Light Gun")>>
+        *Not Buddy Attacks*
+        <<StartBattle ENC_NotBuddy>>
     -> Hey calm down!
-*Not Buddy Attacks*
-<<StartBattle ENC_NotBuddy>>
+        All right I see you're not up for it. Get outta my face!
 ===
 
 
