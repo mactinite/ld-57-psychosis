@@ -20,6 +20,13 @@ namespace Battle_System
         
         public IEnumerator Run(System.Action<MiniGameStatus> onComplete)
         {
+            CursorManager.SetCursor(CursorManager.CursorType.Point);
+            yield return new WaitForSeconds(2f);
+            FullScreenText.ShowText("HIT THE TARGETS");
+            yield return new WaitForSeconds(2f);
+            FullScreenText.HideText();
+
+            CursorManager.SetCursor(CursorManager.CursorType.Targeting);
             int targetsHit = 0;
             int lastTargetsHit = 0;
             CursorManager.SetCursor(CursorManager.CursorType.Targeting);

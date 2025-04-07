@@ -96,3 +96,12 @@ Fine: You wanna Go?
     <<StartBattle ENC_Minions>>
 ->Nah you weirdo...
 ===
+
+title:Boss_Fight
+---
+Fine: You wanna Go?
+
+->Hell yeah I wanna go! <<if hasItem("Light Gun")>>
+    <<StartBattle ENC_Boss>>
+->Nah you weirdo...
+===

@@ -29,8 +29,13 @@ namespace Battle_System
 
         public IEnumerator Run(System.Action<MiniGameStatus> onComplete)
         {
-            CursorManager.SetCursor(CursorManager.CursorType.Targeting);
+            CursorManager.SetCursor(CursorManager.CursorType.Point);
             yield return new WaitForSeconds(2f);
+            FullScreenText.ShowText("HIT TARGETS AVOID BOMBS");
+            yield return new WaitForSeconds(2f);
+            CursorManager.SetCursor(CursorManager.CursorType.Targeting);
+            FullScreenText.HideText();
+            
             int targetsHit = 0;
             int bombsHit = 0;
             int targetsSpawned = 0;

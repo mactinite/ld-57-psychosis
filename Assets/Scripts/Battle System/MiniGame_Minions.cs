@@ -22,11 +22,14 @@ namespace Battle_System
 
         public IEnumerator Run(System.Action<MiniGameStatus> onComplete)
         {
+            
             CursorManager.SetCursor(CursorManager.CursorType.Point);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             // Lights out!
             darknessOverlay.SetActive(true);
-
+            FullScreenText.ShowText("LIGHTS OUT");
+            yield return new WaitForSeconds(.5f);
+            FullScreenText.HideText();
             int targetsHit = 0;
             // spawn all minions at random positions
             for (int i = 0; i < minionCount; i++)
@@ -39,14 +42,17 @@ namespace Battle_System
                     targetsHit++;
                 });
                 
-                minion.SetLifetime(3f+minionLifetime);
+                minion.SetLifetime(1.5f+minionLifetime);
                 yield return null;
             }
-            yield return new WaitForSeconds(3f);
-
+            yield return new WaitForSeconds(1f);
             //lights on!
+            FullScreenText.ShowText("SOMETHING IS COMING");
             darknessOverlay.SetActive(false);
             CursorManager.SetCursor(CursorManager.CursorType.Targeting);
+            yield return new WaitForSeconds(.5f);
+            FullScreenText.HideText();
+            
             yield return new WaitForSeconds(minionLifetime);
             bool pass = targetsHit >= minionCount;
             onComplete?.Invoke(pass ? MiniGameStatus.Completed : MiniGameStatus.Failed);

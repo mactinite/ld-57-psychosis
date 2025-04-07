@@ -10,6 +10,11 @@ public class DialogueManager : SingletonBehaviour<DialogueManager>
 {
     public DialogueRunner dialogueRunner;
     private PlayerInput playerInput;
+    
+    private void OnContinueInput(InputAction.CallbackContext ctx)
+    {
+        Instance.dialogueRunner.dialogueViews[0].UserRequestedViewAdvancement();
+    }
 
     public static void StartDialogue(string startNode)
     {
@@ -31,6 +36,8 @@ public class DialogueManager : SingletonBehaviour<DialogueManager>
     {
         dialogueRunner = GetComponent<DialogueRunner>();
         playerInput = GameManager.GetPlayerInput();
+        GameManager.GetPlayerInput().actions["Continue"].performed +=  OnContinueInput;
+
         if (dialogueRunner == null)
         {
             Debug.LogError("DialogueRunner component not found on this GameObject.");
