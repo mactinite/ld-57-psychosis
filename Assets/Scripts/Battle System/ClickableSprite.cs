@@ -28,5 +28,10 @@ namespace Battle_System
             OnClick?.Invoke();
             // Add logic for what happens when the sprite is clicked
         }
+
+        public void SetLifetime(float targetLifetime)
+        {
+            Destroy(gameObject, targetLifetime);
+        }
     }
 }

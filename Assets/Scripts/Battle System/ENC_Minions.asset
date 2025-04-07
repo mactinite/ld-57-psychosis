@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05cfc680f164ed9b6f6186a97a79d47, type: 3}
+  m_Name: ENC_Minions
+  m_EditorClassIdentifier: 
+  enemySpriteIdle: {fileID: 21300000, guid: 53a38ac70b3e3a6438fdd3c9d2544853, type: 3}
+  miniGame: {fileID: 11400000, guid: 2e27e340309717b43b9bf17d71c990aa, type: 2}
+  failedDialogueNode: NotBuddy_FailedGame
+  successDialogueNode: NotBuddy_PassedGame
+  enemyMaxHealth: 4
+  victoryDialogueNode: NotBuddy_Victory
+  lossDialogueNode: NotBuddy_Defeat
+  itemReactions:
+  - itemName: GreySquare
+    reactionDialogueNode: NotBuddy_GreySquare
+  unkownItemReactionDialogueNode: NotBuddy_Confused

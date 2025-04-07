@@ -77,3 +77,22 @@ title:NotBuddy_GreySquare
 ---
 Not Buddy: Wow my grey square... My mother gave that to me
 ===
+
+
+title:CandyMan_Fight
+---
+Fine: How many times I gotta tell ya, I'M FINE!
+
+->I'll tell you if you're fine! <<if hasItem("Light Gun")>>
+    <<StartBattle ENC_CandyMan>>
+->Sure man whatever you say.
+===
+
+title:Minions_Fight
+---
+Fine: You wanna Go?
+
+->Hell yeah I wanna go! <<if hasItem("Light Gun")>>
+    <<StartBattle ENC_Minions>>
+->Nah you weirdo...
+===
